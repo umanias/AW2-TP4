@@ -1,10 +1,11 @@
 import express from 'express';
 import pool from '../db.mjs';
+import { authAdmin } from '../utils/authMiddleware.mjs';
 
 const router = express.Router();
 
 // POST /:tipo
-router.post('/:tipo', async (req, res) => {
+router.post('/:tipo', authAdmin, async (req, res) => {
   const { tipo } = req.params;
   const { nombre, precio, imagen } = req.body;
   if (!['prendas', 'accesorios'].includes(tipo)) {
@@ -25,7 +26,7 @@ router.post('/:tipo', async (req, res) => {
 });
 
 // PUT /:tipo/:id
-router.put('/:tipo/:id', async (req, res) => {
+router.put('/:tipo/:id', authAdmin, async (req, res) => {
   const { tipo, id } = req.params;
   const { nombre, precio, imagen } = req.body;
   if (!['prendas', 'accesorios'].includes(tipo)) {
@@ -44,7 +45,7 @@ router.put('/:tipo/:id', async (req, res) => {
 });
 
 // DELETE /:tipo/:id
-router.delete('/:tipo/:id', async (req, res) => {
+router.delete('/:tipo/:id', authAdmin, async (req, res) => {
   const { tipo, id } = req.params;
   if (!['prendas', 'accesorios'].includes(tipo)) {
     return res.status(400).json({ error: 'Tipo inválido' });

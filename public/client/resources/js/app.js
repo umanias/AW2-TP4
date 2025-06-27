@@ -82,3 +82,106 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+// Función para obtener el valor de una cookie por nombre
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Redirección a login si no hay cookie 'token' y no estamos en login o registro
+const path = window.location.pathname;
+const isAuthPage = path.includes('login.html') || path.includes('registro.html') || path.includes('recuperar.html');
+if (!isAuthPage && !getCookie('token')) {
+    window.location.href = '/auth/login.html';
+}
+
+// Redirección a index si el usuario ya está logueado y está en una página de auth
+const authPages = ["login.html", "registro.html", "recuperar.html"];
+if (getCookie('token') && authPages.some(p => window.location.pathname.includes(p))) {
+    window.location.href = '/index.html';
+}
+
+// Función para decodificar el payload de un JWT
+function parseJwt(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Ocultar botón 'Agregar' si el usuario no es administrador
+function ocultarBotonAgregarSiNoAdmin() {
+    const token = getCookie('token');
+    console.log('[DEBUG] Token:', token);
+    if (!token) {
+        document.querySelectorAll('.btn-agregar-producto').forEach(btn => {
+            btn.style.display = 'none';
+            btn.onclick = () => window.location.href = '/admin/login.html';
+        });
+        console.log('[DEBUG] No token, ocultando botón');
+        return;
+    }
+    const payload = parseJwt(token);
+    console.log('[DEBUG] Payload:', payload);
+    // Mostrar solo si es Administrador
+    if (payload && payload.rol === 'Administrador') {
+        document.querySelectorAll('.btn-agregar-producto').forEach(btn => {
+            btn.style.display = 'inline-block';
+            btn.onclick = () => window.location.href = '/admin/';
+        });
+        console.log('[DEBUG] Usuario es Administrador, mostrando botón');
+    } else {
+        document.querySelectorAll('.btn-agregar-producto').forEach(btn => {
+            btn.style.display = 'none';
+            btn.onclick = () => window.location.href = '/admin/login.html';
+        });
+        console.log('[DEBUG] Usuario NO es Administrador, ocultando botón');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', ocultarBotonAgregarSiNoAdmin);
+
+function mostrarLogoutSiLogueado() {
+    const token = getCookie('token');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    if (!dropdownMenu) return;
+    const dropdownContent = dropdownMenu.querySelector('.dropdown-content');
+    if (!dropdownContent) return;
+    const loginBtn = dropdownContent.querySelector('[data-action="login"]');
+    const signupBtn = dropdownContent.querySelector('[data-action="signup"]');
+    let logoutBtn = dropdownContent.querySelector('[data-action="logout"]');
+
+    if (token) {
+        // Ocultar Log In y Sign Up
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (signupBtn) signupBtn.style.display = 'none';
+        // Agregar Log Out si no existe
+        if (!logoutBtn) {
+            logoutBtn = document.createElement('a');
+            logoutBtn.href = '#';
+            logoutBtn.className = 'dropdown-item';
+            logoutBtn.setAttribute('data-action', 'logout');
+            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Log Out';
+            logoutBtn.onclick = function(e) {
+                e.preventDefault();
+                document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+                window.location.href = "/auth/login.html";
+            };
+            dropdownContent.appendChild(logoutBtn);
+        } else {
+            logoutBtn.style.display = '';
+        }
+    } else {
+        // Mostrar Log In y Sign Up
+        if (loginBtn) loginBtn.style.display = '';
+        if (signupBtn) signupBtn.style.display = '';
+        // Ocultar Log Out si existe
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', mostrarLogoutSiLogueado);

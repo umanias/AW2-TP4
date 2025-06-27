@@ -8,6 +8,59 @@ let tiendaDatos = { accesorios: [], prendas: [] };  // Ahora se llena desde la A
 let categoriaActual = categoriaSelect.value;
 let accionActual = accionSelect.value;
 
+// Verificar autenticación al cargar la página
+function verificarAutenticacion() {
+    const token = getCookie('token');
+    if (!token) {
+        alert('Debes iniciar sesión como administrador');
+        window.location.href = '/admin/login.html';
+        return false;
+    }
+    
+    // Verificar si el token es válido y corresponde a un administrador
+    try {
+        const payload = parseJwt(token);
+        if (!payload || payload.rol !== 'Administrador') {
+            alert('Acceso denegado. Solo administradores pueden acceder.');
+            document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            window.location.href = '/admin/login.html';
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert('Token inválido');
+        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+        window.location.href = '/admin/login.html';
+        return false;
+    }
+}
+
+// Función para obtener el valor de una cookie por nombre
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Función para decodificar el payload de un JWT
+function parseJwt(token) {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Función para obtener el token de autorización
+function getAuthHeaders() {
+    const token = getCookie('token');
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+}
+
 // Carga inicial desde la API
 async function cargarDatos() {
   try {
@@ -91,10 +144,15 @@ async function agregarProductoBackend(categoria, nombre, precio, imagenFile) {
   const body = JSON.stringify({ nombre, precio, imagenBase64, imagenNombre });
   const resp = await fetch(`/api/${categoria}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders(),
     body
   });
   if (!resp.ok) {
+    if (resp.status === 401) {
+      alert('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      window.location.href = '/admin/login.html';
+      return;
+    }
     alert('Error al agregar producto');
     return;
   }
@@ -111,10 +169,15 @@ async function editarProductoBackend(categoria, id, nombre, precio, imagenFile) 
   const body = JSON.stringify({ nombre, precio, imagenBase64, imagenNombre });
   const resp = await fetch(`/api/${categoria}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders(),
     body
   });
   if (!resp.ok) {
+    if (resp.status === 401) {
+      alert('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      window.location.href = '/admin/login.html';
+      return;
+    }
     alert('Error al editar producto');
     return;
   }
@@ -123,9 +186,15 @@ async function editarProductoBackend(categoria, id, nombre, precio, imagenFile) 
 
 async function eliminarProductoBackend(categoria, id) {
   const resp = await fetch(`/api/${categoria}/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: getAuthHeaders()
   });
   if (!resp.ok) {
+    if (resp.status === 401) {
+      alert('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      window.location.href = '/admin/login.html';
+      return;
+    }
     alert('Error al eliminar producto');
     return;
   }
@@ -185,7 +254,9 @@ btnEjecutarAccion.addEventListener('click', async e => {
 });
 
 // Inicialización
-cargarDatos().then(() => {
-  actualizarFormulario();
-  mostrarTabla();
-}); 
+if (verificarAutenticacion()) {
+    cargarDatos().then(() => {
+        actualizarFormulario();
+        mostrarTabla();
+    });
+} 

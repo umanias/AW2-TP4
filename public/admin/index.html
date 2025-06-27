@@ -4,32 +4,153 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin CRUD - Tienda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    select, input, button { padding: 5px; margin: 5px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    #panelAccion { margin-top: 30px; padding: 15px; border: 1px solid #aaa; }
-    label { display: block; margin-top: 10px; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 0; 
+      padding: 20px; 
+      background: #f5f6fa;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header h1 {
+      color: #DC2E3A;
+      margin: 0;
+    }
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: #DC2E3A;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #b82535;
+    }
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #c82333;
+    }
+    select, input, button { 
+      padding: 8px 12px; 
+      margin: 5px; 
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: 15px; 
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    th, td { 
+      border: 1px solid #e9ecef; 
+      padding: 12px; 
+      text-align: center; 
+    }
+    th {
+      background: #DC2E3A;
+      color: white;
+      font-weight: 600;
+    }
+    #panelAccion { 
+      margin-top: 30px; 
+      padding: 20px; 
+      border: 1px solid #ddd; 
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    label { 
+      display: block; 
+      margin-top: 10px; 
+      font-weight: 500;
+      color: #333;
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1;
+    }
+    .form-group input {
+      width: 100%;
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
-  <h1>Admin CRUD - Tienda</h1>
+  <div class="header">
+    <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
+    <div class="header-buttons">
+      <a href="/index.html" class="btn btn-secondary">
+        <i class="fas fa-store"></i> Volver a la tienda
+      </a>
+      <button onclick="logout()" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+      </button>
+    </div>
+  </div>
 
-  <label for="categoriaSelect">Selecciona categoría:</label>
-  <select id="categoriaSelect">
-    <option value="accesorios">Accesorios</option>
-    <option value="prendas">Prendas</option>
-  </select>
+  <div class="controls">
+    <label for="categoriaSelect">Selecciona categoría:</label>
+    <select id="categoriaSelect">
+      <option value="accesorios">Accesorios</option>
+      <option value="prendas">Prendas</option>
+    </select>
+  </div>
 
   <table>
     <thead>
-      <tr><th>ID</th><th>Nombre</th><th>Precio</th></tr>
+      <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Imagen</th></tr>
     </thead>
     <tbody id="tablaProductosBody"></tbody>
   </table>
 
   <div id="panelAccion">
+    <h3><i class="fas fa-tools"></i> Panel de Acciones</h3>
     <label for="accionSelect">Acción:</label>
     <select id="accionSelect">
       <option value="agregar">Agregar</option>
@@ -41,9 +162,19 @@
       <!-- Los inputs se agregarán dinámicamente aquí -->
     </form>
 
-    <button id="btnEjecutarAccion">Ejecutar</button>
+    <button id="btnEjecutarAccion" class="btn btn-primary">
+      <i class="fas fa-play"></i> Ejecutar
+    </button>
   </div>
 
+  <script>
+    function logout() {
+      if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+        window.location.href = '/admin/login.html';
+      }
+    }
+  </script>
   <script src="crud.js"></script>
 </body>
 </html>

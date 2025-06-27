@@ -71,7 +71,7 @@
       <h2>Crear Cuenta</h2>
 
       <div class="registro-form">
-        <form action="../index.html" method="post">
+        <form id="registroForm">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required />
@@ -110,6 +110,8 @@
           <button type="submit">Registrarse</button>
         </form>
 
+        <div id="registroError" style="color:red;"></div>
+
         <p>¿Ya tienes cuenta? <a href="login.html">Iniciar Sesión</a></p>
       </div>
 
@@ -117,6 +119,49 @@
   </div>
 
   <script src="/resources/js/app.js" type="module"></script>
+  <script>
+  document.getElementById('registroForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name = document.getElementById('nombre').value;
+    const email = document.getElementById('email').value;
+    const usuario = document.getElementById('usuario').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const errorDiv = document.getElementById('registroError');
+    errorDiv.textContent = '';
+    if (password !== confirmPassword) {
+      errorDiv.textContent = 'Las contraseñas no coinciden';
+      return;
+    }
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, usuario, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // Login automático tras registro
+        const loginRes = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ usuario, password })
+        });
+        const loginData = await loginRes.json();
+        if (loginRes.ok && loginData.token) {
+          document.cookie = `token=${loginData.token}; path=/;`;
+          window.location.href = '../index.html';
+        } else {
+          errorDiv.textContent = loginData.error || 'Registro exitoso, pero error al iniciar sesión.';
+        }
+      } else {
+        errorDiv.textContent = data.error || 'Error al registrar usuario';
+      }
+    } catch (err) {
+      errorDiv.textContent = 'Error de red o servidor';
+    }
+  });
+  </script>
 </body>
 
 </html>

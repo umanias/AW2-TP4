@@ -1,5 +1,6 @@
 import express from 'express';
 import pool from '../db.mjs';
+import { login, register } from '../controllers/authController.mjs';
 
 const router = express.Router();
 
@@ -29,5 +30,9 @@ router.get('/:tipo/:id', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener producto' });
   }
 });
+
+// Rutas de autenticación
+router.post('/login', login);
+router.post('/register', register);
 
 export default router;
