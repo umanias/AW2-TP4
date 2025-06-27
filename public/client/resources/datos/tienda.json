@@ -1,0 +1,54 @@
+{
+    "prendas": [
+        {
+            "id": 1,
+            "nombre": "Camisa de Algodón",
+            "imagen": "/resources/store/prendas/camisa-algodon.webp",
+            "precio": 30
+        },
+        {
+            "id": 2,
+            "nombre": "Chaqueta de Cuero",
+            "imagen": "/resources/store/prendas/chaqueta-cuero.jfif",
+            "precio": 80
+        },
+        {
+            "id": 3,
+            "nombre": "Pantalon de Tela",
+            "imagen": "/resources/store/prendas/pantalon-tela.jfif",
+            "precio": 40
+        },
+        {
+            "id": 4,
+            "nombre": "Vestido de Verano",
+            "imagen": "/resources/store/prendas/vestido-verano.jfif",
+            "precio": 50
+        }
+    ],
+    "accesorios": [
+        {
+            "id": 1,
+            "nombre": "Bolsa de Mano",
+            "imagen": "/resources/store/accesorios/bolsa-mano.jfif",
+            "precio": 50
+        },
+        {
+            "id": 2,
+            "nombre": "Bufanda de Lana",
+            "imagen": "/resources/store/accesorios/bufanda.jfif",
+            "precio": 30
+        },
+        {
+            "id": 3,
+            "nombre": "Collar de Perlas",
+            "imagen": "/resources/store/accesorios/collar-perlas.jfif",
+            "precio": 80
+        },
+        {
+            "id": 4,
+            "nombre": "Gafas de Sol",
+            "imagen": "/resources/store/accesorios/gafas-sol.jfif",
+            "precio": 40
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto - Moda Córdoba</title>
+    <link rel="icon" href="/resources/img/Logo.png" />
+    <link rel="stylesheet" href="/resources/css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-section">
+      <img src="/resources/img/Logo.png" alt="Moda Córdoba" class="logo">
+      <h2 class="main-title">Moda Córdoba</h2>
+    </div>
+    <nav class="nav-buttons">
+      <a href="../index.html" class="sidebar-button">
+        <i class="fas fa-home"></i>
+        <span>Inicio</span>
+      </a>
+      <a href="../tienda/prendas.html" class="sidebar-button">
+        <i class="fas fa-tshirt"></i>
+        <span>Prendas</span>
+      </a>
+      <a href="../tienda/accesorios.html" class="sidebar-button">
+        <i class="fas fa-ring"></i>
+        <span>Accesorios</span>
+      </a>
+      <a href="contacto.html" class="sidebar-button">
+        <i class="fas fa-phone"></i>
+        <span>Contacto</span>
+      </a>
+      <a href="about.html" class="sidebar-button">
+        <i class="fas fa-info-circle"></i>
+        <span>About Us</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <div class="header-left">
+        <h1>Contacto</h1>
+      </div>
+      <div class="header-buttons">
+        <div class="user-profile" id="userProfileBtn">
+          <img src="/resources/img/DefaultUser.png" alt="Profile" class="profile-img">
+          <i class="fas fa-chevron-down" id="profileArrow"></i>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="dropdown-content">
+            <a href="../auth/login.html" class="dropdown-item">
+              <i class="fas fa-sign-in-alt"></i> Log In
+            </a>
+            <hr class="dropdown-divider" />
+            <a href="../auth/registro.html" class="dropdown-item">
+              <i class="fas fa-user-plus"></i> Sign Up
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <h2>Contacto</h2>
+
+      <div class="contact-form">
+        <form action="../index.html" method="post">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Tu nombre completo" />
+          </div>
+          <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" name="email" id="email" placeholder="tuemail@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea name="mensaje" id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
+          </div>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+
+      <div class="contact-icons">
+        <h3>También podés contactarnos por:</h3>
+        <ul>
+          <li><i class="fab fa-whatsapp"></i> +54 351 123456</li>
+          <li><i class="fab fa-instagram"></i> @ModaCordoba_Shopping</li>
+          <li><i class="fab fa-facebook"></i> ModaCordoba_Shopping</li>
+          <li><i class="fas fa-map-marker-alt"></i> Avenida 1234, Córdoba Capital</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <script src="/resources/js/app.js" type="module"></script>
+</body>
+
+</html>

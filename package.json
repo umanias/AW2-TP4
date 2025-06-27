@@ -1,0 +1,27 @@
+{
+  "name": "tp-aw1-v2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon public/admin/server/app.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umanias/tp-aw1-v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umanias/tp-aw1-v2/issues"
+  },
+  "homepage": "https://github.com/umanias/tp-aw1-v2#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.6.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.2"
+  }
+}

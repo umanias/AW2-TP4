@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prendas - Moda Córdoba</title>
+    <link rel="icon" href="/resources/img/Logo.png" />
+    <link rel="stylesheet" href="/resources/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-section">
+            <img src="/resources/img/Logo.png" alt="Moda Córdoba" class="logo">
+            <h2 class="main-title">Moda Córdoba</h2>
+        </div>
+        <nav class="nav-buttons">
+            <a href="../index.html" class="sidebar-button">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="prendas.html" class="sidebar-button">
+                <i class="fas fa-tshirt"></i>
+                <span>Prendas</span>
+            </a>
+            <a href="accesorios.html" class="sidebar-button">
+                <i class="fas fa-ring"></i>
+                <span>Accesorios</span>
+            </a>
+            <a href="../info/contacto.html" class="sidebar-button">
+                <i class="fas fa-phone"></i>
+                <span>Contacto</span>
+            </a>
+            <a href="../info/about.html" class="sidebar-button">
+                <i class="fas fa-info-circle"></i>
+                <span>About Us</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Header actualizado -->
+        <header>
+            <div class="header-left">
+                <h1>Catálogo</h1>
+            </div>
+            <div class="header-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar productos, accesorios, etc.">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-profile" id="userProfileBtn">
+                    <img src="/resources/img/DefaultUser.png" alt="Profile" class="profile-img">
+                    <i class="fas fa-chevron-down" id="profileArrow"></i>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-content">
+                        <a href="../auth/login.html" class="dropdown-item">
+                            <i class="fas fa-sign-in-alt"></i> Log In
+                        </a>
+                        <hr class="dropdown-divider" />
+                        <a href="../auth/registro.html" class="dropdown-item">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <h3>Productos Disponibles</h3>
+                    <p class="stat-number"></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Clientes Activos</h3>
+                    <p class="stat-number">33%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Satisfacción</h3>
+                    <p class="stat-number">98%</p>
+                </div>
+            </div>
+
+            <div class="welcome-section">
+                <p class="welcome-text">
+                    Descubrí las últimas prendas y estilos disponibles en Moda Córdoba. Filtrá por categoría o precio y
+                    encontrá lo que buscás.
+                </p>
+            </div>
+            <div class="products-header">
+                <h2>Catálogo de Prendas</h2>
+                <button class="btn-agregar-producto" onclick="window.location.href='/admin'">Agregar</button>
+                <div class="filters">
+                    <select class="filter-select">
+                        <option value="">Categoría</option>
+                        <option value="remeras">Remeras</option>
+                        <option value="pantalones">Pantalones</option>
+                        <option value="vestidos">Vestidos</option>
+                        <option value="abrigos">Abrigos</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">Ordenar por</option>
+                        <option value="precio-bajo">Precio: Menor a Mayor</option>
+                        <option value="precio-alto">Precio: Mayor a Menor</option>
+                        <option value="nuevo">Más Nuevos</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="prendas-productos">
+                <!-- Productos -->
+
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination-container">
+                <div class="pagination">
+                    <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/resources/js/app.js" type="module"></script>
+</body>
+
+</html>
